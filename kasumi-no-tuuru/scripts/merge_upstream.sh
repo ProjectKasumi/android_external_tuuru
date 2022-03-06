@@ -59,7 +59,11 @@ while read path; do
   echo "Merging upstream"
   git merge upstream/$repo_upstream_rev
 
-  git push kasumi HEAD:$ROM_VERSION
+  if [ "$path" == "external/tuuru" ]; then
+    git push kasumi HEAD:master
+  else
+    git push kasumi HEAD:$ROM_VERSION
+  fi
   popd
 
   echo
