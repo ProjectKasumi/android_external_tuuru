@@ -310,7 +310,7 @@ function reporeset() {
   fi
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
-  cd .repo/manifests && git reset --hard m/kasumi-v1
+  cd .repo/manifests && git reset --hard m/staging/kasumi-v2
 
   local TOP="$(gettop)"
 
@@ -352,7 +352,7 @@ EOF
 		if [ -z "$ROM_REVISION" ]
 		then
 			echo -e "\033[1mWarning: unable to determine revision and ROM_REVISION or ROM_VERSION not set! \033[0m"
-			repo_revision="kasumi-v1"
+			repo_revision="staging/kasumi-v2"
 		else
 			echo -e "Note: unable to determine revision, defaulting to $ROM_REVISION"
 			repo_revision="$ROM_REVISION"
@@ -421,10 +421,10 @@ function reposterilize() {
     git rebase --abort 2>/dev/null
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
-    git reset --hard yuki-no-git/kasumi-v1 2>/dev/null \
- || git reset --hard github/lineage-18.1 2>/dev/null \
- || git reset --hard materium/materium-v1 2>/dev/null \
- || git reset --hard devices/kasumi-v1 2>/dev/null \
+    git reset --hard kasumi/staging/kasumi-v2 2>/dev/null \
+ || git reset --hard github/lineage-19.0 2>/dev/null \
+ || git reset --hard materium/materium-v2 2>/dev/null \
+ || git reset --hard devices/staging/kasumi-v2 2>/dev/null \
  || git reset --hard 2>/dev/null
     git clean -fd
   done < <(find "$startdir/" -name ".git" -type d)
@@ -436,8 +436,8 @@ function reposterilize() {
 
 function resetmanifest() {
   cd $(gettop)/.repo/manifests
-  git fetch origin kasumi-v1 2>&1 >/dev/null
-  git reset --hard origin/kasumi-v1 2>&1 >/dev/null
+  git fetch origin staging/kasumi-v2 2>&1 >/dev/null
+  git reset --hard origin/staging/kasumi-v2 2>&1 >/dev/null
   cd $(gettop)
 }
 
