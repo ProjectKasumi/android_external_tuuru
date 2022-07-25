@@ -21,18 +21,15 @@ if [ "$1" != "--no-reset" ]; then
   reposync fast
 fi
 
-echo "Generating temporary manifest file"
-repo manifest > full-manifest.xml
-
 while read path; do
   echo "$path"
-  repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" $TOP/full-manifest.xml)
-  repo_upstream_full=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@upstream" $TOP/full-manifest.xml)
+  repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" $TOP/android/snippets/kasumi.xml)
+  repo_upstream_full=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@upstream" $TOP/android/snippets/kasumi.xml)
   repo_upstream=$(echo "$repo_upstream_full" | cut -d '|' -f1)
   echo "Upstream: $repo_upstream"
   repo_upstream_rev=$(echo "$repo_upstream_full" | cut -d '|' -f2)
   echo "Upstream revision: $repo_upstream_rev"
-  repo_remote=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" $TOP/full-manifest.xml)
+  repo_remote=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" $TOP/android/snippets/kasumi.xml)
 
   pushd $TOP/$path
 
@@ -67,11 +64,7 @@ while read path; do
   popd
 
   echo
-done < <(xmlstarlet sel -t -v '/manifest/project[@upstream]/@path' $TOP/full-manifest.xml)
-
-echo "Deleting temporary manifest file"
-rm -f $TOP/full-manifest.xml
+done < <(xmlstarlet sel -t -v '/manifest/project[@upstream]/@path' $TOP/android/snippets/kasumi.xml)
 
 popd
-
 echo "Everything done."

@@ -423,8 +423,7 @@ function reposterilize() {
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
     git reset --hard kasumi/staging/kasumi-v2 2>/dev/null \
- || git reset --hard github/lineage-19.0 2>/dev/null \
- || git reset --hard materium/materium-v2 2>/dev/null \
+ || git reset --hard github/lineage-19.1 2>/dev/null \
  || git reset --hard devices/staging/kasumi-v2 2>/dev/null \
  || git reset --hard 2>/dev/null
     git clean -fd
@@ -453,7 +452,7 @@ function addghforwd() {
     export reponame=$(echo "$polyremote" | sed 's/.*\//android_/g')
     git remote add gh https://github.com/ProjectKasumi/"$reponame"
     echo "Pushing to GitHub..."
-    git push -f gh HEAD:kasumi-v1 || export addghfallback=true && adddevsforwd
+    git push -f gh HEAD:refs/heads/staging/kasumi-v2 || export addghfallback=true && adddevsforwd
     echo "All done!"
   fi
 }
@@ -467,7 +466,7 @@ function adddevsforwd() {
     echo "GitHub remote failed, Kasumi-Devices to rescue!"
     git remote set-url gh https://github.com/Kasumi-Devices/"$reponame"
     echo "Pushing again..."
-    git push -f gh HEAD:kasumi-v1 || echo "All attempts have failed. Abort!"
+    git push -f gh HEAD:refs/heads/snippets/kasumi-v2 || echo "All attempts have failed. Abort!"
     return 1
   fi
 }
